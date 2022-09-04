@@ -1,6 +1,6 @@
 import { BallTriangle } from "react-loader-spinner";
 
-export const Loader = () => {
+export const Snippet = () => {
     return (
         <BallTriangle
             color="#00BFFF"
