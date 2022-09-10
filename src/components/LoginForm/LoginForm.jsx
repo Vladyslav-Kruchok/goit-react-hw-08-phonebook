@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+
+import * as authOperations from '../../redux/auth/authOperation';
+
 //Style
 import {
     LogForm,
@@ -8,6 +12,8 @@ import {
 } from './LoginForm.styled';
 
 export const LoginForm = () => {
+    const dispatch = useDispatch();
+    
     const [email, setEmailUser] = useState('');
     const [password, setPasswordUser] = useState('');
     
@@ -22,7 +28,7 @@ export const LoginForm = () => {
     };
     const formOnSubmit = (e) => { 
         e.preventDefault();
-        console.log('LoginForm-formOnSubmit: ', { email, password });
+        dispatch(authOperations.axiosLogIn({ email, password }));
         resetFormInput();
     };
     const inputOnChange = (e) => { 

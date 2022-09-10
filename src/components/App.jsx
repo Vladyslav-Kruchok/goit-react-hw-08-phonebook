@@ -2,6 +2,9 @@ import React, {lazy, Suspense} from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 
+import { useSelector } from 'react-redux';
+import { authSelectors } from 'redux/auth';
+
 import { Snippet } from './Snippet/Snippet';
 
 import { PhonebookView } from '../views/PhonebookView';
@@ -16,46 +19,49 @@ const NotFoundView = lazy(() => import('views/NotFoundView.jsx' /* webpackChunkN
 
 
 export const App = () => {
-    return(
-      <Routes>
-        <Route path="/" element={
+      //store
+  const auth = useSelector(authSelectors.auth);
+  
+  return(
+    <Routes>
+      <Route path="/" element={
+        <Suspense fallback={<Snippet />}>
+          <LayoutView />
+        </Suspense>
+      }>
+        <Route path="goit-react-hw-08-phonebook" element={
+          <NavLink to={"/"}>Back Home</NavLink>
+        } />
+        <Route index element={
           <Suspense fallback={<Snippet />}>
-            <LayoutView />
+            <HomeView />
           </Suspense>
-        }>
-          <Route path="goit-react-hw-08-phonebook" element={
-            <NavLink to={"/"}>Back Home</NavLink>
-          } />
-          <Route index element={
-            <Suspense fallback={<Snippet />}>
-              <HomeView />
-            </Suspense>
-          } />
-          {/* PUBLIC */}
-          <Route path="/register" element={
-            <Suspense fallback={<Snippet />}>
-              <RegisterView />
-            </Suspense>
-          } />
-          {/* PUBLIC */}
-          <Route path="/login" element={
-            <Suspense fallback={<Snippet />}>
-              <LoginView />
-            </Suspense>
-          } />
-          {/* PRIVATE */}
-          <Route path="/contacts" element={
-            <Suspense fallback={<Snippet />}>
-              <PhonebookView />
-            </Suspense>
-          } />
-          {/* PUBLIC */}
-          <Route path="*" element={
-            <Suspense fallback={<Snippet />}>
-              <NotFoundView />
-            </Suspense>
-          } />
-        </Route>
-      </Routes>
-    );
+        } />
+        {/* PUBLIC */}
+        <Route path="/register" element={
+          <Suspense fallback={<Snippet />}>
+            <RegisterView />
+          </Suspense>
+        } />
+        {/* PUBLIC */}
+        <Route path="/login" element={
+          <Suspense fallback={<Snippet />}>
+            <LoginView />
+          </Suspense>
+        } />
+        {/* PRIVATE */}
+        <Route path="/contacts" element={
+          <Suspense fallback={<Snippet />}>
+            {auth.isLogIn && <PhonebookView />}
+          </Suspense>
+        } />
+        {/* PUBLIC */}
+        <Route path="*" element={
+          <Suspense fallback={<Snippet />}>
+            <NotFoundView />
+          </Suspense>
+        } />
+      </Route>
+    </Routes>
+  );
 };

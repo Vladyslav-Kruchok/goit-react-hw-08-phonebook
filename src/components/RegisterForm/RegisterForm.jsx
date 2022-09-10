@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+
+import * as authOperations from '../../redux/auth/authOperation';
+
 //Style
 import {
     RegForm,
@@ -8,6 +12,8 @@ import {
 } from './RegisterForm.styled';
 
 export const RegisterForm = () => {
+    const dispatch = useDispatch();
+
     const [name, setNameUser] = useState('');
     const [email, setEmailUser] = useState('');
     const [password, setPasswordUser] = useState('');
@@ -25,7 +31,7 @@ export const RegisterForm = () => {
     };
     const formOnSubmit = (e) => { 
         e.preventDefault();
-        console.log('RegisterForm-formOnSubmit: ', { name, email, password });
+        dispatch(authOperations.axiosAddUser({ name, email, password }));
         resetFormInput();
     };
     const inputOnChange = (e) => { 
@@ -81,3 +87,10 @@ export const RegisterForm = () => {
         </RegForm>
     );
 };
+/*
+name: Dustin Beck
+email: nuwexuduv@mailinator.com
+password: Pa$$w0rd!
+token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzE1MWU0N2UxNjVkODAwMTU2ZWIwZWYiLCJpYXQiOjE2NjIzMjgzOTF9.vIlEZCZjegZBybHxz242B2PtUxT_LSDMqHEKbTCLhhA
+
+*/

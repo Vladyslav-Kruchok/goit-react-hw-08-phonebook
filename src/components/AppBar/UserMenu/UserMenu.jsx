@@ -1,11 +1,22 @@
 import { Link, NavSection } from '../AppBar.styled';
+import { useSelector, useDispatch } from 'react-redux';
+import { authOperations, authSelectors } from 'redux/auth';
 
-const UserMenu = () => { 
+const UserMenu = () => {
+    const dispatch = useDispatch();
+    //store
+    const user = useSelector(authSelectors.getUser);
+    const auth = useSelector(authSelectors.auth);
+    
+    const onClickLogOut = () => {
+        dispatch(authOperations.axiosLogOut(auth.token));
+
+    }
     return (
         <NavSection>
-            <label>User</label>
+            <label>{user.name}</label>
             <Link to="/contacts">Contacts</Link>
-            <Link to="/logout">Logout</Link>
+            <button onClick={onClickLogOut}>Logout</button>
         </NavSection>
     );
 };
