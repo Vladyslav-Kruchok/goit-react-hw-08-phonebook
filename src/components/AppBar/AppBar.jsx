@@ -38,6 +38,7 @@ export default AppBar;
     * email: domini.wat@mailinator.com
     * password: Pa$$w0rd!Dom
     * 
+    * no reg
     * name: Vladyslav Go
     * email: vladyslav.go@gmail.com
     * password: Pa$$w0rd!
