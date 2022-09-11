@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkgoit_react_hw_08_phonebook=self.webpackChunkgoit_react_hw_08_phonebook||[]).push([[32],{1708:function(e,o,h){h.r(o);var n=h(184);o.default=function(){return(0,n.jsx)("div",{children:(0,n.jsx)("h1",{children:"GoIT-react-hw-08-phonebook"})})}}}]);
+//# sourceMappingURL=HomeView.cd653439.chunk.js.map
