@@ -1,7 +1,7 @@
 const HomeView = () => {
     return (
         <div>
-            HomeView
+            <h1>GoIT-react-hw-08-phonebook</h1>
         </div>
     )
 };

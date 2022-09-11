@@ -9,6 +9,7 @@ export const ContactList = () => {
     const dispatch = useDispatch();
     //store
     const auth = useSelector(authSelectors.auth);
+    const isLoading = useSelector(contactsSelectors.isLoading);
     const contacts = useSelector(contactsSelectors.getContacts);
     const filter = useSelector(contactsSelectors.filter);
     const filteredContact = viewContacts(filter, contacts);
@@ -28,7 +29,7 @@ export const ContactList = () => {
     return (
         <ul>
             {
-                contacts && filteredContact.map(({ id, name, number }) => 
+                (contacts && !isLoading) && filteredContact.map(({ id, name, number }) => 
                     <ListItem onClick={onClickDel} key={id} id={id} name={name} number={number} />
                 )
             }

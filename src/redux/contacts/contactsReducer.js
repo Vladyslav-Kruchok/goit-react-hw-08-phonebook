@@ -8,8 +8,9 @@ const entities = createReducer([], {
 
 const isLoading = createReducer(false, {
     [axiosGetContacts.pending]: () => true,
+    [axiosGetContacts.pending]: () => true,
     [axiosGetContacts.fulfilled]: () => false,
-    [axiosGetContacts.rejected]: () => false
+
 });
 
 const error = createReducer(null, {
@@ -22,6 +23,8 @@ const filter = createReducer('', {
         return action.payload;
     }
 });
+
+
 export default combineReducers({
     entities,
     isLoading,
