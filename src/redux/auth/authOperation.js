@@ -16,3 +16,8 @@ export const axiosLogOut = createAsyncThunk('auth/axiosLogOut', async (storeToke
     const logOut = await userAPI.logOut(storeToken);
     return logOut;
 });
+
+export const axiosGetUserInfo = createAsyncThunk('auth/axiosGetUserInfo', async (storeToken) => {
+    const getUserInfo = await userAPI.getUserInfo(storeToken);
+    return getUserInfo;
+});

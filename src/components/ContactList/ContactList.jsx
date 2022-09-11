@@ -2,14 +2,16 @@ import React , {useEffect} from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { ListItem } from "../ListItem";
 import { contactsOperations, contactsSelectors } from "../../redux/contacts";
-import { Snippet } from "../Snippet/Snippet";
+import { authSelectors } from 'redux/auth';
+import viewContacts from '../../services/viewContacts';
 
 export const ContactList = () => {
     const dispatch = useDispatch();
     //store
+    const auth = useSelector(authSelectors.auth);
     const contacts = useSelector(contactsSelectors.getContacts);
-    const filter = useSelector(contactsSelectors.filter); 
-    const isLoading = useSelector(contactsSelectors.isLoading);
+    const filter = useSelector(contactsSelectors.filter);
+    const filteredContact = viewContacts(filter, contacts);
 
     //get all contacts
     useEffect(() => { 
@@ -18,20 +20,18 @@ export const ContactList = () => {
 
     const onClickDel = (e) => { 
         const id = e.target.id;
+        const token = auth.token;
         dispatch(contactsOperations.axiosDelContact(id)).then(data => {
-            dispatch(contactsOperations.axiosFindContacts(filter));
+            dispatch(contactsOperations.axiosGetContacts(token));
         });
     };
     return (
-        <>
-            {isLoading && <Snippet/>}
-            <ul>
-                {
-                    contacts && contacts.map(({ id, name, number }) => 
-                        <ListItem onClick={onClickDel} key={id} id={id} name={name} number={number} />
-                    )
-                }
-            </ul>
-        </>
+        <ul>
+            {
+                contacts && filteredContact.map(({ id, name, number }) => 
+                    <ListItem onClick={onClickDel} key={id} id={id} name={name} number={number} />
+                )
+            }
+        </ul>
     );
 };

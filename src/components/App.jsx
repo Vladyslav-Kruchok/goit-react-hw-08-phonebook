@@ -1,9 +1,8 @@
-import React, {lazy, Suspense} from 'react';
-import { Routes, Route } from 'react-router-dom';
-import { NavLink } from 'react-router-dom';
+import React, { lazy, Suspense, useEffect } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
-import { useSelector } from 'react-redux';
-import { authSelectors } from 'redux/auth';
+import { useSelector, useDispatch } from 'react-redux';
+import { authOperations, authSelectors } from 'redux/auth';
 
 import { Snippet } from './Snippet/Snippet';
 
@@ -19,49 +18,47 @@ const NotFoundView = lazy(() => import('views/NotFoundView.jsx' /* webpackChunkN
 
 
 export const App = () => {
-      //store
+  const dispatch = useDispatch();
+  //store
   const auth = useSelector(authSelectors.auth);
   
-  return(
-    <Routes>
-      <Route path="/" element={
-        <Suspense fallback={<Snippet />}>
+  useEffect(() => {
+    if (!auth.token) {
+      return;
+    }  
+    dispatch(authOperations.axiosGetUserInfo(auth.token));
+  }, [dispatch, auth.token]);
+  
+  return (
+    <Suspense fallback={<Snippet />}>
+      <Routes>
+        <Route path="/" element={
           <LayoutView />
-        </Suspense>
-      }>
-        <Route path="goit-react-hw-08-phonebook" element={
-          <NavLink to={"/"}>Back Home</NavLink>
-        } />
-        <Route index element={
-          <Suspense fallback={<Snippet />}>
+        }>
+          <Route path="goit-react-hw-08-phonebook" element={
+            <Navigate to="/" replace/>
+          } />
+          <Route index element={
             <HomeView />
-          </Suspense>
-        } />
-        {/* PUBLIC */}
-        <Route path="/register" element={
-          <Suspense fallback={<Snippet />}>
-            <RegisterView />
-          </Suspense>
-        } />
-        {/* PUBLIC */}
-        <Route path="/login" element={
-          <Suspense fallback={<Snippet />}>
-            <LoginView />
-          </Suspense>
-        } />
-        {/* PRIVATE */}
-        <Route path="/contacts" element={
-          <Suspense fallback={<Snippet />}>
-            {auth.isLogIn && <PhonebookView />}
-          </Suspense>
-        } />
-        {/* PUBLIC */}
-        <Route path="*" element={
-          <Suspense fallback={<Snippet />}>
+          } />
+          {/* PUBLIC */}
+          <Route path="/register" element={
+            !auth.isLogIn ? <RegisterView /> : <Navigate to="/contacts" replace/>
+          } />
+          {/* PUBLIC */}
+          <Route path="/login" element={
+            !auth.isLogIn ? <LoginView /> : <Navigate to="/contacts" replace/>
+          } />
+          {/* PRIVATE */}
+          <Route path="/contacts" element={
+            auth.isLogIn ? <PhonebookView /> : <LoginView/>
+          } />
+          {/* PUBLIC */}
+          <Route path="*" element={
             <NotFoundView />
-          </Suspense>
-        } />
-      </Route>
-    </Routes>
+          } />
+        </Route>
+      </Routes>
+    </Suspense>
   );
 };

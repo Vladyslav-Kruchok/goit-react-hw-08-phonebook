@@ -24,22 +24,3 @@ const AppBar = () => {
 };
 
 export default AppBar;
-
-/**
-    * name: Emma Bond
-    * email: masijy@mailinator.com
-    * password: Pa$$w0rd!
-    
-    * name: Dominique Watson
-    * email: ziwifokezo@mailinator.com
-    * password: Pa$$w0rd!
-    * 
-    * name: Domini Wat
-    * email: domini.wat@mailinator.com
-    * password: Pa$$w0rd!Dom
-    * 
-    * no reg
-    * name: Vladyslav Go
-    * email: vladyslav.go@gmail.com
-    * password: Pa$$w0rd!
- */

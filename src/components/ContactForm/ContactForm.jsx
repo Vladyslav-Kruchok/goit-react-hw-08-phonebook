@@ -1,31 +1,33 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './ContactForm.module.css';
-import { nanoid } from 'nanoid';
 import { contactsOperations } from "../../redux/contacts";
+import { authSelectors } from 'redux/auth';
+import * as contactsSelectors from 'redux/contacts/contactsSelector';
 
 export const ContactForm = () => { 
     const [name, setNameContact] = useState("");
     const [number, setNumberContact] = useState("");
     
     const dispatch = useDispatch();
+    const auth = useSelector(authSelectors.auth);
+    const contacts = useSelector(contactsSelectors.getContacts);
 
     const formOnSubmit = (e) => {
         e.preventDefault();
-        const id = nanoid();
-        let isContact;
-        dispatch(contactsOperations.axiosFindContacts(name)).then(data => {
-        isContact = !!data.payload.length;
-            if (!isContact) {
-            dispatch(contactsOperations.axiosAddContact({id , name, number })).then(() => {
-                dispatch(contactsOperations.axiosGetContacts());
-                });
-            } else {
-                alert(`${contact.name} is already in a contact`);
-                dispatch(contactsOperations.axiosGetContacts());
-                return;
-            }
+        const token = auth.token;
+        const result = contacts.find(contact => {
+            return contact.name === name;
         });
+
+        if (!result) {
+            dispatch(contactsOperations.axiosAddContact({ name, number, token })).then(() => {
+            dispatch(contactsOperations.axiosGetContacts(token));
+            });
+        } else {
+            alert(`${name} is already in a contact`);
+            return;
+        }
         resetFormInput();
     };
     const contact = {
