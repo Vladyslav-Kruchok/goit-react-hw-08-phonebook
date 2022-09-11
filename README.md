@@ -1,4 +1,5 @@
-# goit-react-hw-07-phonebook
+# goit-react-hw-08-phonebook
+
 **Read in other languages: [Русский](README.md), [Polska](README.pl.md).**
 
 # React homework template
@@ -101,4 +102,3 @@
 3. Если все шаги прошли успешно, собранная продакшн версия файлов проекта
    отправляется в ветку `gh-pages`. В противном случае, в логе выполнения
    скрипта будет указано в чем проблема.
-
