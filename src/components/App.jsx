@@ -35,9 +35,6 @@ export const App = () => {
         <Route path="/" element={
           <LayoutView />
         }>
-          <Route path="goit-react-hw-08-phonebook" element={
-            <Navigate to="/" replace/>
-          } />
           <Route index element={
             <HomeView />
           } />
